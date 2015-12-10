@@ -7,10 +7,10 @@ class Ldap {
 		this.uidField = params.uidField || 'uid';
 		
 		this.client = ldap.createClient({
-			url: params.server
+			url: params.ldapServer
 		});
 
-		this.base = params.base;
+		this.base = params.ldapBase;
 	}
 
 	searchUser(username) {

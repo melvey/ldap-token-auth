@@ -1,6 +1,6 @@
 export default {
-	server: 'ldaps://servername:636',
-	base: 'ou=staff,dc=company',
+	ldapServer: 'ldaps://servername:636',
+	ldapBase: 'ou=staff,dc=company',
 
 	validUser: 'melvey',
 	validPassword: 'somepassword',
