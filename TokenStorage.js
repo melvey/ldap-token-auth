@@ -43,7 +43,7 @@ class TokenStorage {
 		this.knex.schema.createTableIfNotExists(this.table, (table) => {
 			table.increments();
 			table.string(this.userCol);
-			table.bigInteger(this.hashCol);
+			table.string(this.hashCol);
 			table.dateTime(this.expiryCol);
 		}).then(function(results) {
 			true;	// Dunno why but I need this for schema callback to work
@@ -67,14 +67,17 @@ class TokenStorage {
 		});
 	}
 	
-	verifyHash(username, hash) {
+	verifyHash(hash) {
 		return this.knex(this.table)
-		.where(this.userCol, '=', username)
 		.where(this.hashCol, '=', hash)
 		.where(this.expiryCol, '>', new Date())
 		.select()
-		.then(function(results) {
-			return results.length > 0;
+		.then((results) => {
+			if(results.length) {
+				return results[0][this.userCol];
+			} else {
+				return null;
+			}
 		});
 	}
 

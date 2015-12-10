@@ -1,6 +1,6 @@
 import Ldap from './Ldap';
 import TokenStorage from './TokenStorage';
-
+import crypto from 'crypto';
 
 class LdapAuth {
 
@@ -22,21 +22,15 @@ class LdapAuth {
 		});
 	}
 
-	verify(username, token) {
-		return this.tokenStorage.verifyHash(username, token);
+	verify(token) {
+		return this.tokenStorage.verifyHash(token);
 	}
 
-	generateToken(username) {
-		let hashString = username + Date.now();
-
-		let hash = 0;
-		if (hashString.length === 0) return hash;
-		for (let i = 0; i < hashString.length; i++) {
-			let char = hashString.charCodeAt(i);
-			hash = ((hash << 5) - hash) + char;
-			hash = hash & hash; // Convert to 32bit integer
-		}
-		return hash;
+	/**
+	* Generate a new token for this user
+	**/
+	generateToken() {
+		return (Math.random()*1e32).toString(36)
 	}
 
 
